@@ -1,0 +1,10 @@
+.idea
+.vscode
+.pytest_cache
+
+htmlcov
+.coverage
+.test.env
+.env
+.test.env
+ig/tests/integration/cassettes/*
