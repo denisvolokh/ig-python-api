@@ -39,10 +39,10 @@ class IGAPI(object):
         headers.update({"X-IG-API-KEY": self.apikey})
 
         if self._header_cst:
-            headers.update({"CST": self._header_cst})
+            headers.update(self._header_cst)
 
         if self._header_x_security_token:
-            headers.update({"X-SECURITY-TOKEN": self._header_x_security_token})
+            headers.update(self._header_x_security_token)
 
         response = None
 
@@ -92,10 +92,14 @@ class IGAPI(object):
                 raise APIError("Expected header is not present in response.")
 
             if header_item == "CST":
-                self._header_cst = response.headers.get("CST")
+                self._header_cst = {"CST": response.headers.get("CST")}
+
+                self.session.headers.update(self._header_cst)
 
             if header_item == "X-SECURITY-TOKEN":
-                self._header_x_security_token = response.headers.get("X-SECURITY-TOKEN")
+                self._header_x_security_token = {"X-SECURITY-TOKEN": response.headers.get("X-SECURITY-TOKEN")}
+
+                self.session.headers.update(self._header_x_security_token)
 
         content = response.json()
         endpoint.response = response
