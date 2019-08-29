@@ -5,7 +5,8 @@ import betamax
 import pytest
 
 from ig.endpoints.session import Encryption, Session
-from ig.endpoints.accounts import Accounts, AccountPreferences
+from ig.endpoints.accounts import Accounts, AccountPreferences, AccountPreferencesUpdate
+from ig.endpoints.positions import Positions
 
 logger = logging.getLogger("integration")
 logger.setLevel(level=logging.DEBUG)
@@ -63,3 +64,31 @@ class TestSaxoOpenAPI(object):
             account_response = self.client.request(account_pref_endpoint)
 
         assert "trailingStopsEnabled" in account_response
+
+    def test__update_account_preferences(self):
+        """
+            Verify we can update account preferences
+        """
+
+        update_account_data = {"trailingStopsEnabled": True}
+        update_account_pref_endpoint = AccountPreferencesUpdate(data=update_account_data)
+
+        cassette_name = self.generate_cassette_name("update_account_preferences")
+        with self.recorder.use_cassette(cassette_name):
+            update_account_response = self.client.request(update_account_pref_endpoint)
+
+        assert "status" in update_account_response
+        assert update_account_response["status"] == "SUCCESS"
+
+    def test__positions(self):
+        """
+            Verify we can get all open positions
+        """
+
+        positions_endpoint = Positions()
+
+        cassette_name = self.generate_cassette_name("positions")
+        with self.recorder.use_cassette(cassette_name):
+            positions_response = self.client.request(positions_endpoint)
+
+        assert "positions" in positions_response

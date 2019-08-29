@@ -14,6 +14,7 @@ pytest-cov = "*"
 coverage = "*"
 python-coveralls = "*"
 pytest-dotenv = "*"
+mypy = "*"
 
 [packages]
 requests = "*"

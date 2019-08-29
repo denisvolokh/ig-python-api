@@ -4,7 +4,6 @@ from .apirequest import APIRequest
 class Accounts(APIRequest):
     """
         Returns a list of accounts belonging to the logged-in client.
-
     """
 
     ENDPOINT = "/accounts"

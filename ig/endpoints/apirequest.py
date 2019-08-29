@@ -1,7 +1,6 @@
 class APIRequest(object):
 
     METHOD = "GET"
-    EXPECTED_STATUS = 200
     HEADERS = {
         "Content-Type": "application/json; charset=UTF-8",
         "Accept": "application/json; charset=UTF-8",
@@ -12,7 +11,6 @@ class APIRequest(object):
         endpoint: str,
         method: str = "GET",
         header: dict = None,
-        expected_status: int = 200,
     ):
         self._endpoint = endpoint
 
@@ -22,7 +20,6 @@ class APIRequest(object):
 
         self._response = None
         self._status_code = None
-        self._expected_status = expected_status
 
         self.method = method
 
@@ -49,14 +46,6 @@ class APIRequest(object):
     @status_code.setter
     def status_code(self, value):
         self._status_code = value
-
-    @property
-    def expected_status(self):
-        return self._expected_status
-
-    @expected_status.setter
-    def expected_status(self, value):
-        self._expected_status = value
 
     def __str__(self):
         return self._endpoint
