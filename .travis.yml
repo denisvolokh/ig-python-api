@@ -7,7 +7,7 @@ install:
   - pipenv install --dev
 
 script:
-  - pipenv run pytest ig/tests
+  - pipenv run pytest
 
 after_success:
   - coverage report
