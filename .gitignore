@@ -9,4 +9,4 @@ htmlcov
 .test.env
 .env
 .test.env
-ig/tests/integration/cassettes/*
+ig/tests/integration/cassettes/*.json
