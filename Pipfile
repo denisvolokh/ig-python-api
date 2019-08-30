@@ -15,6 +15,7 @@ coverage = "*"
 python-coveralls = "*"
 pytest-dotenv = "*"
 mypy = "*"
+pre-commit = "*"
 
 [packages]
 requests = "*"

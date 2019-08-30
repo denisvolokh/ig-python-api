@@ -8,8 +8,8 @@ from ig.endpoints.session import Encryption, Session
 from ig.endpoints.accounts import Accounts, AccountPreferences, AccountPreferencesUpdate
 from ig.endpoints.positions import Positions
 
-logger = logging.getLogger("integration")
-logger.setLevel(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("ig.tests.integration")
 
 
 class TestSaxoOpenAPI(object):
@@ -24,10 +24,6 @@ class TestSaxoOpenAPI(object):
         """
 
         self.client = ig_api_demo_client
-
-        logger.info(self.client.session.headers)
-        print(self.client.session.headers)
-
         self.recorder = betamax.Betamax(session=self.client.session)
 
     @staticmethod
@@ -91,4 +87,13 @@ class TestSaxoOpenAPI(object):
         with self.recorder.use_cassette(cassette_name):
             positions_response = self.client.request(positions_endpoint)
 
+        logger.info(positions_response)
+
         assert "positions" in positions_response
+
+    def test__create_otc_market_position(self, market_position):
+        """
+            Verify we can create market OTC position
+        """
+
+        

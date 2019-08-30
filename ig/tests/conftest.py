@@ -6,6 +6,7 @@ from betamax_serializers import pretty_json
 
 from ig.api import IGAPI
 from ig.endpoints.session import Encryption, Session
+from ig.endpoints.payloads.positions import Position
 
 betamax.Betamax.register_serializer(pretty_json.PrettyJSONSerializer)
 
@@ -51,6 +52,18 @@ def ig_api_demo_client():
     api_client.request(session_endpoint)
 
     return api_client
+
+@pytest.fixture
+def market_position(self):
+    p = Position(epic="CS.D.GBPUSD.CSD.IP",
+    direction="BUY",
+    size="10000",
+    order_type="MARKET",
+    currency_code="USD",
+    guaranteed_stop=False,
+    force_open=True)
+
+    return p
 
 # @pytest.fixture
 # def encryption():
