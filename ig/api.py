@@ -1,3 +1,6 @@
+import logging
+import typing
+
 import requests
 
 from .endpoints.apirequest import APIRequest
@@ -7,6 +10,9 @@ ENVIRONMENTS = {
     "DEMO": {"GATEWAY": "https://demo-api.ig.com/gateway/deal"},
     "LIVE": {"DATA": "GATEWAY"},
 }
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("ig.api")
 
 
 class IGAPI(object):
@@ -19,8 +25,8 @@ class IGAPI(object):
         except KeyError:
             raise BadEnvironment("Environment is incorrect.")
 
-        self._header_cst = None
-        self._header_x_security_token = None
+        self._header_cst = dict()  # type: typing.Dict[str, str]
+        self._header_x_security_token = dict()  # type: typing.Dict[str, str]
 
         self.session = requests.Session()
 
@@ -64,13 +70,13 @@ class IGAPI(object):
         try:
             query_params = getattr(endpoint, "params")
 
-        except AttributeError as exc:
+        except AttributeError:
             query_params = {}
 
         try:
             data_params = getattr(endpoint, "data")
 
-        except AttributeError as exc:
+        except AttributeError:
             data_params = {}
 
         response = self.__make_request(
@@ -84,7 +90,7 @@ class IGAPI(object):
         try:
             expected_headers = getattr(endpoint, "RESPONSE_HEADERS")
 
-        except AttributeError as exc:
+        except AttributeError:
             expected_headers = list()
 
         for header_item in expected_headers:
@@ -97,7 +103,9 @@ class IGAPI(object):
                 self.session.headers.update(self._header_cst)
 
             if header_item == "X-SECURITY-TOKEN":
-                self._header_x_security_token = {"X-SECURITY-TOKEN": response.headers.get("X-SECURITY-TOKEN")}
+                self._header_x_security_token = {
+                    "X-SECURITY-TOKEN": response.headers.get("X-SECURITY-TOKEN")
+                }
 
                 self.session.headers.update(self._header_x_security_token)
 

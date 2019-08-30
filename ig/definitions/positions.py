@@ -1,16 +1,17 @@
-class OrderType():
+class OrderType:
 
     Market = "MARKET"
     Limit = "LIMIT"
     Quote = "QUOTE"
 
 
-class DealDirection():
+class DealDirection:
 
     Buy = "BUY"
     Sell = "SELL"
 
+
 class TimeInForce:
 
     ExecuteandEliminate = "EXECUTE_AND_ELIMINATE"
-    FillOrKill = "FILL_OR_KILL" 
+    FillOrKill = "FILL_OR_KILL"

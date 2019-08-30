@@ -44,7 +44,9 @@ class Session(APIRequest):
         password_timestamp = password + "|" + str(encryption_timestamp)
 
         input = base64.b64encode(password_timestamp.encode("UTF-8"))
-        encrypted_password = base64.b64encode(PKCS1_v1_5.new(rsakey).encrypt(input))
+        encrypted_password = base64.b64encode(  # type: ignore
+            PKCS1_v1_5.new(rsakey).encrypt(input)  # type: ignore
+        )  # type: ignore
 
         self.data = {
             "identifier": identifier,

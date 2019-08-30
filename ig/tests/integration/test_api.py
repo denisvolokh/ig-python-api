@@ -1,12 +1,10 @@
 import logging
-import os
 
 import betamax
 import pytest
 
-from ig.endpoints.session import Encryption, Session
-from ig.endpoints.accounts import Accounts, AccountPreferences, AccountPreferencesUpdate
-from ig.endpoints.positions import Positions
+from ig.endpoints.accounts import AccountPreferences, AccountPreferencesUpdate, Accounts
+from ig.endpoints.positions import CreatePosition, Positions
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("ig.tests.integration")
@@ -67,7 +65,9 @@ class TestSaxoOpenAPI(object):
         """
 
         update_account_data = {"trailingStopsEnabled": True}
-        update_account_pref_endpoint = AccountPreferencesUpdate(data=update_account_data)
+        update_account_pref_endpoint = AccountPreferencesUpdate(
+            data=update_account_data
+        )
 
         cassette_name = self.generate_cassette_name("update_account_preferences")
         with self.recorder.use_cassette(cassette_name):
@@ -96,4 +96,14 @@ class TestSaxoOpenAPI(object):
             Verify we can create market OTC position
         """
 
-        
+        logger.info(market_position.data)
+
+        create_position_endpoint = CreatePosition(data=market_position.data)
+
+        cassette_name = self.generate_cassette_name("create_position")
+        with self.recorder.use_cassette(cassette_name):
+            create_position_response = self.client.request(create_position_endpoint)
+
+        logger.info(create_position_response)
+
+        assert "dealReference" in create_position_response

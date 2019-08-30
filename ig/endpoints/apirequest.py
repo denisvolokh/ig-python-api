@@ -6,12 +6,7 @@ class APIRequest(object):
         "Accept": "application/json; charset=UTF-8",
     }
 
-    def __init__(
-        self,
-        endpoint: str,
-        method: str = "GET",
-        header: dict = None,
-    ):
+    def __init__(self, endpoint: str, method: str = "GET", header: dict = None):
         self._endpoint = endpoint
 
         self._header = self.HEADERS
