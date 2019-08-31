@@ -5,6 +5,7 @@ import pytest
 
 from ig.definitions.markets import MarketDetailsFilter
 from ig.endpoints.accounts import AccountPreferences, AccountPreferencesUpdate, Accounts
+from ig.endpoints.clientsentiment import ClientMarketSentiment
 from ig.endpoints.markets import MarketEpicDetails, MarketPrices, Markets, SearchMarkets
 from ig.endpoints.positions import CreatePosition, Positions
 
@@ -171,3 +172,21 @@ class TestSaxoOpenAPI(object):
             prices_response = self.client.request(prices_endpoint)
 
         assert "prices" in prices_response
+
+    # Client Sentiment endpoints
+
+    def test_client_sentiment(self):
+        """
+            Verify we can get client sentiment
+        """
+
+        market_ids = "FT100,EURUSD"
+
+        client_sentiment_endpoint = ClientMarketSentiment(market_ids=market_ids)
+
+        cassette_name = self.generate_cassette_name("client_sentiment")
+        with self.recorder.use_cassette(cassette_name):
+            client_sentiment_response = self.client.request(client_sentiment_endpoint)
+
+        assert "clientSentiments" in client_sentiment_response
+        assert len(client_sentiment_response["clientSentiments"]) == 2
