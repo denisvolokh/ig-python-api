@@ -3,8 +3,9 @@ import logging
 import betamax
 import pytest
 
+from ig.definitions.markets import MarketDetailsFilter
 from ig.endpoints.accounts import AccountPreferences, AccountPreferencesUpdate, Accounts
-from ig.endpoints.markets import SearchMarkets
+from ig.endpoints.markets import Markets, SearchMarkets
 from ig.endpoints.positions import CreatePosition, Positions
 
 logging.basicConfig(level=logging.INFO)
@@ -120,3 +121,20 @@ class TestSaxoOpenAPI(object):
 
         assert "markets" in search_markets_response
         assert len(search_markets_response["markets"]) > 0
+
+    def test__markets_details(self):
+        """
+            Verify we can get markets details
+        """
+
+        epic = "CS.D.GBPUSD.CSD.IP"
+
+        markets_details_endpoint = Markets(
+            epics=epic, filter=MarketDetailsFilter.SnapshotOnly
+        )
+
+        cassette_name = self.generate_cassette_name("markets_details")
+        with self.recorder.use_cassette(cassette_name):
+            markets_details_response = self.client.request(markets_details_endpoint)
+
+        assert "marketDetails" in markets_details_response

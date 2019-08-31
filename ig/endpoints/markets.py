@@ -1,4 +1,4 @@
-from ..definitions.markets import PriceResolution
+from ..definitions.markets import MarketDetailsFilter, PriceResolution
 from .apirequest import APIRequest
 
 
@@ -19,17 +19,26 @@ class SearchMarkets(APIRequest):
 
 
 class Markets(APIRequest):
+    """
+        Returns the details of the given markets.
+
+        :epics: The epics of the market to be retrieved, separated by a comma.
+        :filter: Filter for the market details: ALL (default) or SNAPSHOT_ONLY
+    """
 
     ENDPOINT = "/markets"
     EXTRA_HEADERS = {"VERSION": "2"}
 
-    def __init__(self, epics: str, filter: str = "ALL"):
+    def __init__(self, epics: str, filter: str = MarketDetailsFilter.All):
         super(Markets, self).__init__(endpoint=self.ENDPOINT, header=self.EXTRA_HEADERS)
 
         self.params = {"epics": epics, "filter": filter}
 
 
 class MarketEpicDetails(APIRequest):
+    """
+        Returns the details of the given epic.
+    """
 
     ENDPOINT = "/markets/{epic}"
     EXTRA_HEADERS = {"VERSION": "3"}

@@ -15,3 +15,9 @@ class PriceResolution:
     Month = "MONTH"
     Second = "SECOND"
     Week = "WEEK"
+
+
+class MarketDetailsFilter:
+
+    All = "ALL"
+    SnapshotOnly = "SNAPSHOT_ONLY"
