@@ -5,7 +5,7 @@ import pytest
 
 from ig.definitions.markets import MarketDetailsFilter
 from ig.endpoints.accounts import AccountPreferences, AccountPreferencesUpdate, Accounts
-from ig.endpoints.markets import Markets, SearchMarkets
+from ig.endpoints.markets import MarketEpicDetails, MarketPrices, Markets, SearchMarkets
 from ig.endpoints.positions import CreatePosition, Positions
 
 logging.basicConfig(level=logging.INFO)
@@ -138,3 +138,36 @@ class TestSaxoOpenAPI(object):
             markets_details_response = self.client.request(markets_details_endpoint)
 
         assert "marketDetails" in markets_details_response
+
+    def test__market_epic_details(self):
+        """
+            Verify we can get market epic details
+        """
+
+        epic = "CS.D.GBPUSD.CSD.IP"
+
+        market_epic_details_endpoint = MarketEpicDetails(epic=epic)
+
+        cassette_name = self.generate_cassette_name("market_epic_details")
+        with self.recorder.use_cassette(cassette_name):
+            market_epic_details_response = self.client.request(
+                market_epic_details_endpoint
+            )
+
+        assert "instrument" in market_epic_details_response
+        assert market_epic_details_response["instrument"]["epic"] == epic
+
+    def test__market_price(self):
+        """
+            Verify we can get market price for given epic
+        """
+
+        epic = "CS.D.GBPUSD.CSD.IP"
+
+        prices_endpoint = MarketPrices(epic=epic)
+
+        cassette_name = self.generate_cassette_name("market_prices")
+        with self.recorder.use_cassette(cassette_name):
+            prices_response = self.client.request(prices_endpoint)
+
+        assert "prices" in prices_response

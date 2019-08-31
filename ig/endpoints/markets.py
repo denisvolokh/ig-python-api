@@ -20,7 +20,7 @@ class SearchMarkets(APIRequest):
 
 class Markets(APIRequest):
     """
-        Returns the details of the given markets.
+        Returns details of the given markets.
 
         :epics: The epics of the market to be retrieved, separated by a comma.
         :filter: Filter for the market details: ALL (default) or SNAPSHOT_ONLY
@@ -37,7 +37,7 @@ class Markets(APIRequest):
 
 class MarketEpicDetails(APIRequest):
     """
-        Returns the details of the given epic.
+        Returns details of the given epic.
     """
 
     ENDPOINT = "/markets/{epic}"
