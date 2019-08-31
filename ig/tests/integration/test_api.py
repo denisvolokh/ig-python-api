@@ -4,6 +4,7 @@ import betamax
 import pytest
 
 from ig.endpoints.accounts import AccountPreferences, AccountPreferencesUpdate, Accounts
+from ig.endpoints.markets import SearchMarkets
 from ig.endpoints.positions import CreatePosition, Positions
 
 logging.basicConfig(level=logging.INFO)
@@ -96,14 +97,26 @@ class TestSaxoOpenAPI(object):
             Verify we can create market OTC position
         """
 
-        logger.info(market_position.data)
-
         create_position_endpoint = CreatePosition(data=market_position.data)
 
         cassette_name = self.generate_cassette_name("create_position")
         with self.recorder.use_cassette(cassette_name):
             create_position_response = self.client.request(create_position_endpoint)
 
-        logger.info(create_position_response)
-
         assert "dealReference" in create_position_response
+
+    # Markets endpoints
+
+    def test__search_market(self):
+        """
+            Verify we can search market for instrument
+        """
+
+        search_market_endpoint = SearchMarkets(search_term="USDGBP")
+
+        cassette_name = self.generate_cassette_name("search_markets")
+        with self.recorder.use_cassette(cassette_name):
+            search_markets_response = self.client.request(search_market_endpoint)
+
+        assert "markets" in search_markets_response
+        assert len(search_markets_response["markets"]) > 0
