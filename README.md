@@ -1,1 +1,3 @@
 # IG Python REST API wrapper [![Build Status](https://travis-ci.com/denisvolokh/ig-python-api.svg?branch=develop)](https://travis-ci.com/denisvolokh/ig-python-api) [![Coverage Status](https://coveralls.io/repos/github/denisvolokh/ig-python-api/badge.svg?branch=develop)](https://coveralls.io/github/denisvolokh/ig-python-api?branch=develop)
+
+To run tests place create .test.env (example test.env.template) file and populate it
