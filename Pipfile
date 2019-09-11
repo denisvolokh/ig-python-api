@@ -20,6 +20,8 @@ pre-commit = "*"
 [packages]
 requests = "*"
 pycryptodome = "*"
+six = "*"
+munch = "*"
 
 [requires]
 python_version = "3.7"
