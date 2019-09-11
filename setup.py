@@ -5,7 +5,7 @@ import ig
 packages = setuptools.find_packages(
     exclude=["ig.tests", "ig.tests.integration", "ig.tests.unit"]
 )
-requires = ["requests", "pycryptodome"]
+requires = ["requests", "pycryptodome", "six"]
 
 
 setuptools.setup(
