@@ -10,7 +10,6 @@ class IGStream(object):
         self.cst = cst
         self.x_security_token = x_security_token
         self.lightstreamer_endpoint = lightstreamer_endpoint
-        # self.ls_client = None
 
     def connect(self, account_id: str):
         password = f"CST-{self.cst}|XST-{self.x_security_token}"
